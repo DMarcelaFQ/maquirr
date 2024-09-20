@@ -1,11 +1,12 @@
-import {Router} from "express";
-import { cancelAppointmentController, createAppointmentController, getAppointmentController, getOneAppointmentController,  } from "../controllers/appointmentsController";
+import {Request, Response, Router} from "express";
+import { cancelAppointmentbyIdController, createAppointmentController, getAppointmentbyIdController, getAppointmentController,  } from "../controllers/appointmentsController";
+import { AppointmentDto } from "../dto/AppointmentDto";
 
 const shiftsRouter: Router = Router();
 
-shiftsRouter.get("/appointments", getAppointmentController);
-shiftsRouter.get("/appointments", getOneAppointmentController);
-shiftsRouter.post("/appointments/schedule", createAppointmentController);
-shiftsRouter.put("/appointments/cancel", cancelAppointmentController);
+shiftsRouter.get("/", (req: Request, res: Response) => getAppointmentController(req, res));
+shiftsRouter.get("/:id", (req: Request<{ id: string}>, res: Response) => getAppointmentbyIdController(req, res));
+shiftsRouter.post("/schedule", (req:Request<unknown, unknown, AppointmentDto>, res:Response) => createAppointmentController(req, res));
+shiftsRouter.put("/cancel/:id", (req: Request<{ id: string}>, res: Response) => cancelAppointmentbyIdController(req, res));
 
 export default shiftsRouter;

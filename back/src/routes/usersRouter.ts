@@ -1,11 +1,12 @@
-import {Router} from "express";
+import {Request, Response, Router} from "express";
 
-import { createUserController, getUserController, getUserIdController, loginUserController } from "../controllers/usersController";
+import { registerUserController, getUserController, getUserbyIdController, loginUserController } from "../controllers/usersController";
+import { UserDto, UserLoginDto } from "../dto/UserDto";
 const usersRouter: Router = Router();
 
-usersRouter.get("/users", getUserController);
-usersRouter.get("/users/:id", getUserIdController);
-usersRouter.post("/users/register", createUserController);
-usersRouter.post("/users/login", loginUserController)
+usersRouter.get("/", (req: Request, res: Response) => getUserController(req, res));
+usersRouter.get("/:id", (req: Request<{id: string}>, res: Response) => getUserbyIdController(req, res));
+usersRouter.post("/register", (req: Request<unknown, unknown, UserDto>, res: Response) => registerUserController(req, res));
+usersRouter.post("/login", (req: Request<unknown, unknown, UserLoginDto>, res: Response) => loginUserController(req, res))
 
 export default usersRouter;
