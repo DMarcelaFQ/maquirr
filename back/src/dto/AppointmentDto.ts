@@ -1,5 +1,5 @@
 export interface AppointmentDto{
     date: Date,
-    hour: string,
+    time: string,
     status: string,
 }
