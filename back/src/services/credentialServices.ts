@@ -1,4 +1,3 @@
-import { promises } from "dns";
 import { ICredenntials } from "../interfaces/ICredentials"
 
 

@@ -8,6 +8,9 @@ let id: number = 1;
 
 export const registerUserService = async (userData: UserDto): Promise<IUser> => {
     
+    const existingUser = await users.find(user => user.email === userData.email);
+    if(existingUser) throw new Error("This user already exists - email already in use")
+    
     const createCredential =  await getCredentialService(userData.email, userData.password)
 
     const newUser: IUser = {
@@ -27,11 +30,12 @@ export const getUserService = async(): Promise<IUser[]> => {
     return await users;
 }
 
-export const getUserbyIdService = async(id:number): Promise<IUser|undefined> => {
+export const getUserbyIdService = async(id:number): Promise<IUser> => {
     const userById = users.find(user => user.id === id);
-    return userById || undefined;
+    if (!userById) throw new Error(`User not found`);
+    return userById
 }
 
-export const loginUserService = async(userData:UserLoginDto): Promise<IUser|undefined> => {
-    const userLogin = await checkCredentials(userData.email, userData.password);
-}
+// export const loginUserService = async(userData:UserLoginDto): Promise<IUser|undefined> => {
+//     const userLogin = await checkCredentials(userData.email, userData.password);
+// }

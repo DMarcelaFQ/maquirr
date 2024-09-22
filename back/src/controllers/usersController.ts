@@ -11,7 +11,6 @@ export const getUserController = async (req:Request, res:Response): Promise<void
     } catch (error) {
         res.status(400).json({
             message: "Couldn't get the users data. Something went wrong",
-            details: error
         });
     }
 }
@@ -26,14 +25,14 @@ export const getUserbyIdController = async (req:Request<{ id: string}>, res:Resp
     } catch (error) {
         res.status(400).json({
             message: "Couldn't get the user data. Something went wrong",
-            details: error
+            details: (error as Error).message
         });
     }
 }
 
 export const registerUserController = async (req: Request<unknown, unknown, UserDto>, res: Response): Promise<void> => {
-    const registerUser = await registerUserService(req.body);
     try {
+        const registerUser = await registerUserService(req.body);
         res.status(200).json({
             message:"User successfully registered",
             data: registerUser
@@ -41,13 +40,14 @@ export const registerUserController = async (req: Request<unknown, unknown, User
     } catch (error) {
         res.status(400).json({
             message: "Couldn't register. Something went wrong",
+            details: (error as Error).message
         });
     }
 }
 
 export const loginUserController = async (req: Request<unknown, unknown, UserLoginDto>, res: Response): Promise<void> => {
-    //const loginrUser = await loginUserService(req.body);
     try {
+        //const loginrUser = await loginUserService(req.body);
         res.status(200).json({
             message:"Login successfully",
             data: ["here is the data"]
