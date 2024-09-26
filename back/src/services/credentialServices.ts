@@ -1,23 +1,44 @@
-import { ICredenntials } from "../interfaces/ICredentials"
+import { EntityManager } from "typeorm";
+import { CredentialModel } from "../config/data-source";
+import { Credential } from "../entities/CredentialEntity";
+import bcrypt from "bcrypt"
 
 
-const credentialsList: ICredenntials[] = []
-let id: number = 1;
+const credentialsList: Credential[] = []
 
-export const getCredentialService =  async (email: string, password: string): Promise<number> => {
-    const newCredentials: ICredenntials = {
-        id: id++,
-        email,
-        password
-    }
+export const getCredentialService =  async (entityManager: EntityManager, email: string, password: string): Promise<Credential> => {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds)
 
-    credentialsList.push(newCredentials)
-    return newCredentials.id
+   const credential: Credential = entityManager.create(Credential, {
+    email,
+    password: hashedPassword
+   })
+
+   const credentials = await entityManager.save(credential)
+   return credentials
+    
+    // const newCredentials: ICredenntials = {
+    //     id: id++,
+    //     email,
+    //     password: hashedPassword
+    // }
+
+    // credentialsList.push(newCredentials)
+    // return newCredentials.id
 }
 
 
-export const checkCredentials = async (email:string, password: string): Promise<number|undefined> => {
-    const foundCredentials = await credentialsList.find(credentials => credentials.email === email);
-
-    return (!foundCredentials || foundCredentials.password !== password)? undefined: foundCredentials.id;
+export const checkCredentials = async (email:string, password: string): Promise<number> => {
+    
+    const userfound = await CredentialModel.findOne({
+        where: {email}
+    });
+    if(!userfound) throw Error ("User not found")
+    
+    const passwordMatch: Boolean = await bcrypt.compare(password, userfound.password);
+    if (!passwordMatch) {
+        throw new Error("Incorrect password");
+    }
+    return userfound.id
 }

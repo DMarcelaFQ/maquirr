@@ -4,7 +4,7 @@ import appointmentsRouter from "./appointmentsRouter";
 
 const router: Router = Router();
 
-router.use("/users", usersRouter);
+router.use("/user", usersRouter);
 router.use("/appointments", appointmentsRouter);
 
 

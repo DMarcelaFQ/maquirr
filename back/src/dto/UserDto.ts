@@ -10,3 +10,7 @@ export interface UserLoginDto {
     email: string,
     password: string,
 }
+
+export interface UserloggedDto {
+    name: string,
+}

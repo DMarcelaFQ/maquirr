@@ -1,41 +1,54 @@
-import { UserDto, UserLoginDto } from "../dto/UserDto";
-import { IUser } from "../interfaces/IUser";
+import { AppDataSource, UserModel } from "../config/data-source";
+import { UserDto, UserloggedDto, UserLoginDto } from "../dto/UserDto";
+import { User } from "../entities/UserEntity";
 import { checkCredentials, getCredentialService } from "./credentialServices";
 
-let users: IUser[] = [];
+let users: User[] = [];
 
-let id: number = 1;
-
-export const registerUserService = async (userData: UserDto): Promise<IUser> => {
+export const registerUserService = async (userData: UserDto): Promise<User> => {
     
-    const existingUser = await users.find(user => user.email === userData.email);
-    if(existingUser) throw new Error("This user already exists - email already in use")
-    
-    const createCredential =  await getCredentialService(userData.email, userData.password)
+    const result = await AppDataSource.transaction( async (entityManager) => {
 
-    const newUser: IUser = {
-        id: id ++,
-        name: userData.name,
-        email: userData.email,
-        birthdate: new Date(userData.birthdate),
-        phone:  userData.phone,
-        password: userData.password,
-        credentialsId: createCredential
+        const createCredential =  await getCredentialService(entityManager, userData.email, userData.password)
+
+        const newUser: User = entityManager.create(User, {
+            name: userData.name,
+            email: userData.email,
+            birthdate: new Date(userData.birthdate),
+            phone:  userData.phone,
+            credentials: createCredential
+        })
+        await entityManager.save(newUser)
+        return newUser
+    })
+
+    return result
+
+}
+
+export const getUserService = async(): Promise<User[]> => {
+    const allUsers: User[] = await UserModel.find();
+    return allUsers
+}
+
+export const getUserbyIdService = async(id:number): Promise<User> => {
+    const userFound = await UserModel.findOne({
+        where: {id},
+        // relations: ["credentials"]
+    });
+    if(!userFound) throw new Error(`the user with id: ${id} was not found`)
+    else return userFound
+}
+
+export const loginUserService = async(user:UserLoginDto): Promise<UserloggedDto> => {
+    
+    const userLoged: number = await checkCredentials(user.email, user.password)
+
+    const userFind = await UserModel.findOne({
+        where:{
+            credentials: {id: userLoged}
+        }})
+    return {
+        name: userFind?.name ?? "",
     }
-    users.push(newUser);
-    return newUser
-}
-
-export const getUserService = async(): Promise<IUser[]> => {
-    return await users;
-}
-
-export const getUserbyIdService = async(id:number): Promise<IUser> => {
-    const userById = users.find(user => user.id === id);
-    if (!userById) throw new Error(`User not found`);
-    return userById
-}
-
-// export const loginUserService = async(userData:UserLoginDto): Promise<IUser|undefined> => {
-//     const userLogin = await checkCredentials(userData.email, userData.password);
-// }
+} 

@@ -20,7 +20,7 @@ export const getAppointmentController = async (req:Request, res:Response): Promi
 export const getAppointmentbyIdController = async (req:Request<{ id: string}>, res:Response): Promise<void> => {
     const {id} = req.params;
     try {
-        const getAppointmentbyId = await getAppointmentbyIdService(parseInt(id));
+        const getAppointmentbyId = await getAppointmentbyIdService(parseInt(id, 10));
         res.status(200).json({
             message:`Get the specific appointment data ${id}`,
             data: getAppointmentbyId
@@ -52,7 +52,7 @@ export const createAppointmentController = async (req:Request<unknown, unknown, 
 export const cancelAppointmentbyIdController = async (req:Request<{ id: string}>, res:Response): Promise<void> => {
     const {id} = req.params;
     try {
-        const cancelAppointment = await cancelAppointmentService(parseInt(id));
+        const cancelAppointment = await cancelAppointmentService(parseInt(id, 10));
         res.status(200).json({
             message:"Appointment cancelled",
             data: cancelAppointment
