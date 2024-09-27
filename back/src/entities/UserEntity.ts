@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 import { Credential } from "./CredentialEntity"
+import { Appointment } from "./AppointmentEntity"
 
  @Entity("users")
  export class User {
@@ -21,6 +22,10 @@ import { Credential } from "./CredentialEntity"
     @OneToOne( () => Credential, { cascade: true} )
     @JoinColumn()
     credentials: Credential
+
+    @OneToMany(() => Appointment, appointment => appointment.user )
+    @JoinColumn()
+    appointments: Appointment[]
 
     @CreateDateColumn()
     createdAt?:Date

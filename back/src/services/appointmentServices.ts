@@ -1,53 +1,45 @@
 import { AppointmentDto } from "../dto/AppointmentDto";
-import { IAppointments, status } from "../interfaces/IAppointment";
+import { Appointment } from "../entities/AppointmentEntity";
+import { status } from "../interfaces/IAppointment";
+import { AppointmentRepository } from "../repositories/AppointmentRepository";
 import { getUserbyIdService } from "./userServices";
 
-let appointments: IAppointments[] = [];
+let appointments: Appointment[] = [];
 
 let id: number = 1;
 
-export const createAppointmentService = async (appointmentData: AppointmentDto): Promise<IAppointments> => {
+export const createAppointmentService = async (appointmentData: AppointmentDto): Promise<Appointment> => {
     
-    const findUser = await getUserbyIdService(appointmentData.userId);
-    if (!findUser) {
-        throw new Error(`User not found`);
-    }
-
-    const existingAppointment = await appointments.find(app => 
-        app.userId === appointmentData.userId 
-        && app.time === appointmentData.time 
-        && app.date === appointmentData.date);
-    if(existingAppointment) throw new Error(`User with ID ${appointmentData.userId} already has an appointment at the same date and time`);
-
-    const newAppointment: IAppointments = {
-        id: id ++,
+    await getUserbyIdService(appointmentData.userId);
+    AppointmentRepository.validateAllowAppointment(appointmentData.date, appointmentData.time)
+    await AppointmentRepository.validateExistingAppointment(appointmentData.userId, appointmentData.date, appointmentData.time)
+    
+    const newAppointment: Appointment = AppointmentRepository.create({
         date: appointmentData.date,
         time: appointmentData.time,
-        userId: appointmentData.userId,
-        status: status.active
-    }
-    appointments.push(newAppointment);
-    return newAppointment
+        user: {id: appointmentData.userId,}  
+    })
+    return await AppointmentRepository.save(newAppointment)
 }
 
-export const getAppointmentService = async(): Promise<IAppointments[]> => {
-    return await appointments;
+export const getAppointmentService = async(): Promise<Appointment[]> => {
+    const allAppointments: Appointment[] = await AppointmentRepository.find()
+    if(allAppointments.length === 0) {throw new Error(`There are no appointments to display`)}
+    return allAppointments
 }
 
-export const getAppointmentbyIdService = async(id:number): Promise<IAppointments> => {
-    const appointmentById = appointments.find(app => app.id === id);
-    if (!appointmentById) throw new Error(`User not found`);
+export const getAppointmentbyIdService = async(id:number): Promise<Appointment> => {
+    const appointmentById = await AppointmentRepository.findOne({where: {id}});
+    if (!appointmentById) throw new Error(`Appointment not found`);
     return appointmentById
 }
 
-export const cancelAppointmentService = async (id:number): Promise<IAppointments | undefined> => {
-    const appointmentToCancel = await appointments.find(app => app.id === id);
+export const cancelAppointmentService = async (id:number): Promise<void> => {
+    const appointmentToCancel = await AppointmentRepository.findOne({where: {id}});
 
     if(!appointmentToCancel) throw new Error(`Couldn't cancel, Appointment not found`);
-    
     if(appointmentToCancel.status !== status.active) throw new Error("Appointment already cancelled");
     
     appointmentToCancel.status = status.cacelled;
-
-    return appointmentToCancel;
+    await AppointmentRepository.save(appointmentToCancel)
 }

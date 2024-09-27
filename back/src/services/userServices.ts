@@ -3,7 +3,7 @@ import { UserDto, UserloggedDto, UserLoginDto } from "../dto/UserDto";
 import { User } from "../entities/UserEntity";
 import { checkCredentials, getCredentialService } from "./credentialServices";
 
-let users: User[] = [];
+// let users: User[] = [];
 
 export const registerUserService = async (userData: UserDto): Promise<User> => {
     
@@ -34,7 +34,7 @@ export const getUserService = async(): Promise<User[]> => {
 export const getUserbyIdService = async(id:number): Promise<User> => {
     const userFound = await UserModel.findOne({
         where: {id},
-        // relations: ["credentials"]
+        relations: ["appointments"]
     });
     if(!userFound) throw new Error(`the user with id: ${id} was not found`)
     else return userFound

@@ -10,9 +10,9 @@ export const getAppointmentController = async (req:Request, res:Response): Promi
             data: getAppointment
         });
     } catch (error) {
-        res.status(400).json({
+        res.status(404).json({
             message: "Couldn't get the appointmets. Something went wrong",
-            details: error
+            details: (error as Error).message
         });
     }
 } 
@@ -26,7 +26,7 @@ export const getAppointmentbyIdController = async (req:Request<{ id: string}>, r
             data: getAppointmentbyId
         });
     } catch (error) {
-        res.status(400).json({
+        res.status(404).json({
             message: "Couldn't get Appointment information. Something went wrong",
             details: (error as Error).message
         });
@@ -36,7 +36,7 @@ export const getAppointmentbyIdController = async (req:Request<{ id: string}>, r
 export const createAppointmentController = async (req:Request<unknown, unknown, AppointmentDto>, res:Response): Promise<void> => {
     try {
         const createAppointment = await createAppointmentService(req.body);
-        res.status(200).json({
+        res.status(201).json({
             message:"Appointment successfully created",
             data: createAppointment
         });
@@ -58,7 +58,7 @@ export const cancelAppointmentbyIdController = async (req:Request<{ id: string}>
             data: cancelAppointment
         });
     } catch (error) {
-        res.status(400).json({
+        res.status(404).json({
             message: "Couldn't cancel the Appointment. Something went wrong",
             details: (error as Error).message
         });

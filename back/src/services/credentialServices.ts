@@ -4,7 +4,7 @@ import { Credential } from "../entities/CredentialEntity";
 import bcrypt from "bcrypt"
 
 
-const credentialsList: Credential[] = []
+// const credentialsList: Credential[] = []
 
 export const getCredentialService =  async (entityManager: EntityManager, email: string, password: string): Promise<Credential> => {
     const saltRounds = 10;
@@ -17,15 +17,6 @@ export const getCredentialService =  async (entityManager: EntityManager, email:
 
    const credentials = await entityManager.save(credential)
    return credentials
-    
-    // const newCredentials: ICredenntials = {
-    //     id: id++,
-    //     email,
-    //     password: hashedPassword
-    // }
-
-    // credentialsList.push(newCredentials)
-    // return newCredentials.id
 }
 
 
