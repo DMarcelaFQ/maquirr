@@ -1,9 +1,8 @@
-import { AppDataSource, UserModel } from "../config/data-source";
+import { AppDataSource } from "../config/data-source";
 import { UserDto, UserloggedDto, UserLoginDto } from "../dto/UserDto";
 import { User } from "../entities/UserEntity";
+import { UserRepository } from "../repositories/UserRepository";
 import { checkCredentials, getCredentialService } from "./credentialServices";
-
-// let users: User[] = [];
 
 export const registerUserService = async (userData: UserDto): Promise<User> => {
     
@@ -27,12 +26,12 @@ export const registerUserService = async (userData: UserDto): Promise<User> => {
 }
 
 export const getUserService = async(): Promise<User[]> => {
-    const allUsers: User[] = await UserModel.find();
+    const allUsers: User[] = await UserRepository.find();
     return allUsers
 }
 
 export const getUserbyIdService = async(id:number): Promise<User> => {
-    const userFound = await UserModel.findOne({
+    const userFound = await UserRepository.findOne({
         where: {id},
         relations: ["appointments"]
     });
@@ -44,7 +43,7 @@ export const loginUserService = async(user:UserLoginDto): Promise<UserloggedDto>
     
     const userLoged: number = await checkCredentials(user.email, user.password)
 
-    const userFind = await UserModel.findOne({
+    const userFind = await UserRepository.findOne({
         where:{
             credentials: {id: userLoged}
         }})

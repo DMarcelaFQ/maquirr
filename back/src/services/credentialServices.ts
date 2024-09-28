@@ -1,10 +1,8 @@
 import { EntityManager } from "typeorm";
-import { CredentialModel } from "../config/data-source";
 import { Credential } from "../entities/CredentialEntity";
 import bcrypt from "bcrypt"
+import { CredentialRepository } from "../repositories/CredentialRepository";
 
-
-// const credentialsList: Credential[] = []
 
 export const getCredentialService =  async (entityManager: EntityManager, email: string, password: string): Promise<Credential> => {
     const saltRounds = 10;
@@ -22,7 +20,7 @@ export const getCredentialService =  async (entityManager: EntityManager, email:
 
 export const checkCredentials = async (email:string, password: string): Promise<number> => {
     
-    const userfound = await CredentialModel.findOne({
+    const userfound = await CredentialRepository.findOne({
         where: {email}
     });
     if(!userfound) throw Error ("User not found")
