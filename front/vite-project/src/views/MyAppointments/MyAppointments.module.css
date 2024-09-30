@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    align-items: flex-start;
+    margin: 20px;
+    flex-wrap: wrap;  
+}
+
+.title {
+    color: #7EFADA;
+}
+
+.titleContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.cardsContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}

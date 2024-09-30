@@ -1,0 +1,74 @@
+
+.statusActive{
+    background-color: #49FABD ;
+    color: black;
+    font-weight: bold;
+    padding-left: 20px;
+    font-size: 24px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.details {
+    display: flex;
+    flex-direction: row;
+    background-color: #AFFAE2;
+    color: black;
+    justify-content: space-around;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 80vh;
+    margin: 20px;
+}
+
+.button {
+    font-family: inherit; 
+    font-size: inherit;
+    background-color: #2BF5F3;
+    font-size: 22px;
+    font-weight: bold;
+    color:black;
+    border:none;
+    border-radius: 20px;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-self: center;
+    cursor: pointer;
+}
+
+.button:hover {
+    color: white;
+    transform: scale(1.2);
+}
+
+.statusCancelled{
+    background-color: #A2B0AC ;
+    color: black;
+    font-weight: bold;
+    padding-left: 20px;
+    font-size: 24px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.buttonDisabled {
+    font-family: inherit; /* Hereda la fuente del body */
+    font-size: inherit;
+    background-color: #A2B0AC;
+    font-size: 22px;
+    font-weight: bold;
+    color:black;
+    border:none;
+    border-radius: 20px;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-self: center;
+    cursor: not-allowed;
+}

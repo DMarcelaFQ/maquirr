@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+
+
+body {
+    background-image: url("./assets/foto-patron-textura-piedra_58702-14125.jpg");
+    background-size: cover;
+    font-family: "Architects Daughter", cursive;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color:white;
+    font-size: 20px;
+  }
+
+
+  
+
+  

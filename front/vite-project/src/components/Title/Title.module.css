@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Homemade+Apple&display=swap');
+
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.mainTitle {
+    font-family: "Caveat", cursive;
+    font-size: 150px;
+    color: #49FABD;
+    margin-top: 10px;
+}
+
+.mainSubtitle {
+    font-family: "Homemade Apple", cursive;
+    font-size: 60px;
+    color: #9EFFA9;
+    padding-top: 80px;
+}
