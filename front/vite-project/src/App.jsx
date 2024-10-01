@@ -1,6 +1,7 @@
 import './App.css'
 import Home from './views/Home/Home'
-import MyAppointments from './views/MyAppointments/MyAppointments'
+// import MyAppointments from './views/MyAppointments/MyAppointments'
+import Login from './views/Login/Login'
 
 
 function App() {
@@ -13,7 +14,8 @@ function App() {
       </header>
       <main>
         <div>
-          <MyAppointments />
+          <Login />
+          {/* <MyAppointments /> */}
         </div>
       </main>
     </>

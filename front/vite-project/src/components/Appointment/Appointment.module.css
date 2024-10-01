@@ -57,8 +57,8 @@
     border-top-right-radius: 20px;
 }
 
-.buttonDisabled {
-    font-family: inherit; /* Hereda la fuente del body */
+.button:disabled {
+    font-family: inherit; 
     font-size: inherit;
     background-color: #A2B0AC;
     font-size: 22px;
