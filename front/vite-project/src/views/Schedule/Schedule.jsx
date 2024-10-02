@@ -1,8 +1,14 @@
 import { useFormik } from "formik"
 import { validateAppointmentSchedule } from "../../helpers/validations"
 import styles from "./Schedule.module.css"
+import { useDispatch, useSelector } from "react-redux"
+import { postAppointment } from "../../redux/userReducer"
+import Swal from "sweetalert2"
 
 const Schedule = () => {
+
+    const dispatch = useDispatch();
+    const userId = useSelector((state) => state.user);
 
     const formik = useFormik({
         initialValues: {
@@ -10,9 +16,22 @@ const Schedule = () => {
             time: ""  
         },
         validate: validateAppointmentSchedule, 
-        onSubmit: (values) => {
-            console.log(values); 
-        }
+        onSubmit: async (values) => {
+            try {
+                const data = {...values, userId:userId};
+                await dispatch(postAppointment(data)).unwrap(); 
+                Swal.fire({
+                    icon: "success",
+                    title: "Reserva creada con exito"
+                })
+            } catch (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: `${error.response.data.details}`,
+                    text: "Intentelo nuevamente",
+                })
+            }
+        },
     });
 
     return (
@@ -20,8 +39,12 @@ const Schedule = () => {
             <div className={styles.titleContainer}>
                 <h1 className={styles.title}>Reserva una Cita:</h1>
             </div>
-            <form className={styles.formContainer}>
-                <p className={styles.paragraph}>Horario de atencion: Lunes a Viernes de 2:00pm a 8:00pm - Sábados de 8:00am 12:00 m y de 2:00pm a 6:00pm </p>
+            <form className={styles.formContainer} onSubmit={formik.handleSubmit}>
+                <p className={styles.paragraph}>
+                    Horario de atención: <br />
+                    Lunes a Viernes de 2:00pm a 8:00pm<br />
+                    Sábados de 8:00am 12:00 m y de 2:00pm a 6:00pm </p>
+                <p className={styles.paragraph}>Recuerda reservar como mínimo 24 horas antes</p>
                 <div className={styles.formDiv}>
                     <label className={styles.formLabel}><strong>Día:</strong></label>
                     <input
@@ -44,9 +67,11 @@ const Schedule = () => {
                         className={styles.formInput}
                         type="time"
                         name="time"
+                        step="1800"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.time}
+                        
                     />
                     <label className={styles.formError}>
                         {formik.touched.time && formik.errors.time ? formik.errors.time : null}

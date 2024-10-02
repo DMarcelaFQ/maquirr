@@ -12,5 +12,9 @@ export interface UserLoginDto {
 }
 
 export interface UserloggedDto {
+    id: number,
     name: string,
+    email: string,
+    birthdate: Date,
+    phone: number,
 }

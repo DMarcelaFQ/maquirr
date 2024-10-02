@@ -24,21 +24,21 @@ export const createAppointmentService = async (appointmentData: AppointmentDto):
 
 export const getAppointmentService = async(): Promise<Appointment[]> => {
     const allAppointments: Appointment[] = await AppointmentRepository.find()
-    if(allAppointments.length === 0) {throw new Error(`There are no appointments to display`)}
+    if(allAppointments.length === 0) {throw new Error(`No hay reservas para mostrar`)}
     return allAppointments
 }
 
 export const getAppointmentbyIdService = async(id:number): Promise<Appointment> => {
     const appointmentById = await AppointmentRepository.findOne({where: {id}});
-    if (!appointmentById) throw new Error(`Appointment not found`);
+    if (!appointmentById) throw new Error(`La reserva no fue encontrada`);
     return appointmentById
 }
 
 export const cancelAppointmentService = async (id:number): Promise<void> => {
     const appointmentToCancel = await AppointmentRepository.findOne({where: {id}});
 
-    if(!appointmentToCancel) throw new Error(`Couldn't cancel, Appointment not found`);
-    if(appointmentToCancel.status !== status.active) throw new Error("Appointment already cancelled");
+    if(!appointmentToCancel) throw new Error(`No se pudo cancelar. La reserva no fue encontrada`);
+    if(appointmentToCancel.status !== status.active) throw new Error("La reserva ya fue cancelada con anterioridad");
     
     appointmentToCancel.status = status.cacelled;
     await AppointmentRepository.save(appointmentToCancel)

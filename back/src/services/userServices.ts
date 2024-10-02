@@ -35,7 +35,7 @@ export const getUserbyIdService = async(id:number): Promise<User> => {
         where: {id},
         relations: ["appointments"]
     });
-    if(!userFound) throw new Error(`the user with id: ${id} was not found`)
+    if(!userFound) throw new Error(`El usuario no fue encontrado`)
     else return userFound
 }
 
@@ -48,6 +48,10 @@ export const loginUserService = async(user:UserLoginDto): Promise<UserloggedDto>
             credentials: {id: userLoged}
         }})
     return {
+        id: userFind?.id ?? 0,
         name: userFind?.name ?? "",
+        email: userFind?.email ?? "",
+        birthdate: userFind?.birthdate ?? new Date(),
+        phone: userFind?.phone ?? 0
     }
 } 

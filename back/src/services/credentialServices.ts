@@ -23,11 +23,11 @@ export const checkCredentials = async (email:string, password: string): Promise<
     const userfound = await CredentialRepository.findOne({
         where: {email}
     });
-    if(!userfound) throw Error ("User not found")
+    if(!userfound) throw Error ("El usuario no fue encontrado")
     
     const passwordMatch: Boolean = await bcrypt.compare(password, userfound.password);
     if (!passwordMatch) {
-        throw new Error("Incorrect password");
+        throw new Error("Contraseña incorrecta");
     }
     return userfound.id
 }

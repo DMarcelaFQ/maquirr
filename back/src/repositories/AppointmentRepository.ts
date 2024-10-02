@@ -51,6 +51,6 @@ export const AppointmentRepository = AppDataSource.getRepository(Appointment).ex
         const appointmentFound = await this.findOne({
             where: { user: {id: userId}, date:date, time: time}
         })
-        if(appointmentFound) throw new Error(`User with ID ${userId} already has an appointment at the same date and time`)
+        if(appointmentFound) throw new Error(`Ya tienes una reserva para ese dia a la misma hora`)
     }
 })

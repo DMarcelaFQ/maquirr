@@ -1,26 +1,20 @@
-import { useEffect, useState } from "react"
-import Appointment from "../../components/Appointment/Appointment"
-import styles from "./MyAppointments.module.css"
-import axios from "axios"
+import { useEffect, useState } from "react";
+import Appointment from "../../components/Appointment/Appointment";
+import styles from "./MyAppointments.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getAppointments } from "../../redux/userReducer";
+
 
 const MyAppointments = () => {
 
-    const [appointments, setAppointments] = useState([])
-    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const userId = useSelector((state) => state.user);
+    const userAppointments = useSelector((state) => state.userAppointments);
 
     useEffect (()=> {
-        axios.get("http://localhost:3000/appointments/")
-        .then ((res) => {
-            setAppointments(res.data.data)
-            setTimeout(() => {
-                setLoading(false); 
-            }, 3000)
-        })
-        .catch((error) => {
-            console.log(error)
-            setLoading(false)
-        });
-    }, [])
+        dispatch(getAppointments(userId))
+    }, [dispatch]);
+    
 
     return (
         <div className={styles.container}> 
@@ -28,9 +22,7 @@ const MyAppointments = () => {
             <h1 className={styles.title}>Mis reservas:  </h1>
             </div>
             <div className={styles.cardsContainer}>
-                {loading ? (
-                    <div className={styles.spinner}></div>
-                ) :appointments && appointments.length > 0 ? (appointments.map(appointment =>
+                {userAppointments.length > 0 ? (userAppointments.map(appointment =>
                     <Appointment
                         key={appointment.id}
                         id={appointment.id}

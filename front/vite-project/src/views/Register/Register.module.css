@@ -106,4 +106,5 @@
     display: flex;
     align-self: center;
     cursor: not-allowed;
+    transform: scale(1.0);
 }

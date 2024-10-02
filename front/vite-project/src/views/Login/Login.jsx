@@ -1,17 +1,37 @@
 import styles from "./Login.Module.css"
 import { useFormik } from "formik"
 import { validateFields } from "../../helpers/validations"
+import { useDispatch, useSelector } from "react-redux"
+import { loginUser } from "../../redux/userReducer"
+import Swal from "sweetalert2"
 
 const Login = () => {
+
+    const dispatch = useDispatch();
+    const state = useSelector((state) => state);
+
+    console.log(state)
 
     const formik = useFormik({
         initialValues: {
             email: "",
-            password: ""
+            password: "",
         },
         validate: validateFields,
-        onSubmit: (values) => {
-            console.log(values);
+        onSubmit: async (values) => {
+            try {
+                await dispatch(loginUser(values)).unwrap();
+                Swal.fire({
+                    title: "¡Bienvenid@!",
+                    icon: "success",
+                  });              
+            } catch (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: `${error.response.data.details}`,
+                    text: "Intentelo nuevamente",
+                });           
+            };
         }
     })
 
@@ -20,7 +40,7 @@ const Login = () => {
         <div className={styles.titleContainer}> 
             <h1 className={styles.title}>Inicia sesión para reservar:</h1>
         </div>
-        <form className={styles.formContainer}>
+        <form className={styles.formContainer} onSubmit={formik.handleSubmit}>
             <div className={styles.formDiv}>
             <label className={styles.formLabel}><strong>Email:</strong></label>
             <input className={styles.formInput}
