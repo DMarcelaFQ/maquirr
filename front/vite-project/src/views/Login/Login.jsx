@@ -4,14 +4,12 @@ import { validateFields } from "../../helpers/validations"
 import { useDispatch, useSelector } from "react-redux"
 import { loginUser } from "../../redux/userReducer"
 import Swal from "sweetalert2"
+import { Link, useNavigate } from "react-router-dom"
 
 const Login = () => {
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const state = useSelector((state) => state);
-
-    console.log(state)
-
+    
     const formik = useFormik({
         initialValues: {
             email: "",
@@ -21,6 +19,7 @@ const Login = () => {
         onSubmit: async (values) => {
             try {
                 await dispatch(loginUser(values)).unwrap();
+                navigate("/");
                 Swal.fire({
                     title: "¡Bienvenid@!",
                     icon: "success",
@@ -32,7 +31,8 @@ const Login = () => {
                     text: "Intentelo nuevamente",
                 });           
             };
-        }
+        },
+    
     })
 
     return (
@@ -71,8 +71,15 @@ const Login = () => {
             disabled= {Object.keys(formik.errors).length > 0 
             || !formik.values.email
             || !formik.values.password
-            }>Login</button>
+            }>Login
+            </button>
         </form>
+        <div className={styles.containerP}>
+            <p className={styles.paragraph}>Aún no tienes una cuenta?
+            <Link to="/register" className={styles.link}>Regístrate!</Link>
+            </p>
+            <Link to="/" className={styles.link}>Volver al inicio</Link>
+        </div>
     </div>
     )
 }

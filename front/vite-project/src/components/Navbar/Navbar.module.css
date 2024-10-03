@@ -2,7 +2,7 @@
     background-color: #2BF5F3;
     color: black;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: row;
     justify-content: space-around;
     padding: 20px;
@@ -14,10 +14,26 @@
     color: black;
     font-weight: bold; 
     margin: 0 15px; 
-    font-size: 22px; 
+    font-size: 22px;
+    cursor: pointer;
 }
 
 .link:hover {
     color: white;
     transform: scale(1.05);
+}
+
+.activeLink {
+    text-decoration: none; 
+    color: #49fabd;
+    font-weight: bold; 
+    font-size: 22px;
+    display: inline-block;  
+    width: 200px;  
+    height: 50px;  
+    line-height: 50px;
+    text-align: center;
+    background-color: black; 
+    font-weight: bold;
+    border-radius: 8px;
 }

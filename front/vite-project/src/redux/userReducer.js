@@ -43,6 +43,15 @@ export const postAppointment = createAsyncThunk("appointments/createAppointment"
     }
 })
 
+export const registerUser = createAsyncThunk("user/registerUser", 
+    async (values, {dispatch, rejectWithValue}) =>{
+    try {
+        await axios.post(`http://localhost:3000/user/register`, values);
+    } catch (error) {
+        return rejectWithValue(error);
+    }
+})
+
 
 const userSlice = createSlice({
     name: "userReducer",
@@ -52,7 +61,7 @@ const userSlice = createSlice({
     },
     reducers: {
         setUser: (state, action) => {
-            state.user = action.payload;
+            state.user = action.payload.id;
             localStorage.setItem("userId", action.payload.id);
         },
         setUserAppointments: (state, action) =>{
@@ -64,11 +73,15 @@ const userSlice = createSlice({
                 ? {...appointment, status: "cancelled"}
                 : appointment
             )
-
+        },
+        logOutUser: (state) => {
+            state.user = "";
+            state.userAppointments = [];
+            localStorage.removeItem("userId");
         }
 
     },
 })
 
-export const { setUser, setUserAppointments, cancelIdAppointment} = userSlice.actions;
+export const { setUser, setUserAppointments, cancelIdAppointment, logOutUser} = userSlice.actions;
 export default userSlice.reducer;

@@ -4,9 +4,10 @@ import styles from "./Schedule.module.css"
 import { useDispatch, useSelector } from "react-redux"
 import { postAppointment } from "../../redux/userReducer"
 import Swal from "sweetalert2"
+import { useNavigate } from "react-router-dom"
 
 const Schedule = () => {
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const userId = useSelector((state) => state.user);
 
@@ -20,9 +21,10 @@ const Schedule = () => {
             try {
                 const data = {...values, userId:userId};
                 await dispatch(postAppointment(data)).unwrap(); 
+                navigate("/myAppointments")
                 Swal.fire({
                     icon: "success",
-                    title: "Reserva creada con exito"
+                    title: "Reserva creada con éxito"
                 })
             } catch (error) {
                 Swal.fire({

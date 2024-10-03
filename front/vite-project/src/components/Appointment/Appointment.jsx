@@ -6,7 +6,18 @@ import { cancelAppointment } from "../../redux/userReducer"
 const Appointment = ({id, date, time, status}) => {
 
     const dispatch = useDispatch()
-    const handleCancel = async () => {
+    const handleCancel = () => {
+        Swal.fire({
+            title: '¿Estás seguro de cancelar la reserva?',
+            text: 'No podremos recuperar tu reserva, deberás reservar una nueva cita.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, cancelar',
+            cancelButtonText: 'No, mantener reserva'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
         try {
             await dispatch(cancelAppointment(id)).unwrap();
             Swal.fire({
@@ -18,9 +29,11 @@ const Appointment = ({id, date, time, status}) => {
             Swal.fire({
                 icon: "error",
                 title: "Error al cancelar la reserva. Intente de nuevo"
-            })
+            });
         }
-    }
+        }
+    });
+    }   
 
     return(
         <div className={styles.container}>

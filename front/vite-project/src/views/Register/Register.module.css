@@ -108,3 +108,31 @@
     cursor: not-allowed;
     transform: scale(1.0);
 }
+
+.link {
+    text-decoration: none; 
+    color: #9EFFA9;
+    font-weight: bold; 
+    margin: 0 15px; 
+    font-size: 22px; 
+}
+
+.link:hover {
+    color: white;
+    transform: scale(1.25);
+}
+
+.paragraph {
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.containerP {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin: 0px;
+    flex-wrap: wrap;  
+}

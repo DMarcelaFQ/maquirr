@@ -49,6 +49,10 @@ export const validateRegisterFields = (inputObject) => {
         errors.phone = "El número de teléfono solo debe contener números";
     }
 
+    if (!/^\d{1,9}$/.test(inputObject.phone)) {
+        errors.phone = "El teléfono no debe exceder 9 dígitos";
+    }
+    
     if (!inputObject.birthdate) {
         errors.birthdate = "El campo fecha de nacimiento es requerido";
     } 

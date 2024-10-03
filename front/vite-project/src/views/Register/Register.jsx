@@ -1,8 +1,15 @@
 import { useFormik } from "formik"
 import { validateRegisterFields } from "../../helpers/validations"
 import styles from "./Register.module.css"
+import { useDispatch } from "react-redux"
+import { registerUser } from "../../redux/userReducer"
+import Swal from "sweetalert2"
+import { Link, useNavigate } from "react-router-dom"
 
 const Register = () => {
+    
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const formik = useFormik({
         initialValues: {
@@ -13,9 +20,29 @@ const Register = () => {
             password: ""         
         },
         validate: validateRegisterFields, 
-        onSubmit: (values) => {
-            console.log(values); 
-        }
+        onSubmit: async (values) => {
+            try {
+                 await dispatch(registerUser(values)).unwrap();
+                 navigate("/login")
+                 Swal.fire({
+                    icon: "success",
+                    title: "Te registraste con éxito"
+                })
+            } catch (error) {
+                if(error.response.data.details.includes("UQ_c286aa8e09ecff5cc756ee83214"))
+                Swal.fire({
+                    icon: "error",
+                    title: `El email: ${formik.values.email} ya se encuentra registrado`,
+                    text: "Intente con otro email o inicie sesión con el email registrado",
+                }); else 
+                    Swal.fire({
+                    icon: "error",
+                    title: `${error.response.data.details}`,
+                    text: "Intentelo nuevamente",
+                })
+            }
+        },
+    
     });
 
     return (
@@ -23,7 +50,7 @@ const Register = () => {
             <div className={styles.titleContainer}>
                 <h1 className={styles.title}>Regístrate para reservar:</h1>
             </div>
-            <form className={styles.formContainer}>
+            <form className={styles.formContainer} onSubmit={formik.handleSubmit}>
                 <div className={styles.formDiv}>
                     <label className={styles.formLabel}><strong>Nombre:</strong></label>
                     <input
@@ -61,7 +88,7 @@ const Register = () => {
                         className={styles.formInput}
                         type="String"
                         name="phone"
-                        placeholder="1234567890"
+                        placeholder="123456789"
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         value={formik.values.phone}
@@ -118,6 +145,12 @@ const Register = () => {
                     Regístrate
                 </button>
             </form>
+            <div className={styles.containerP}>
+            <p className={styles.paragraph}>Ya tienes una cuenta?
+            <Link to="/login" className={styles.link}>Inicia sesión</Link>
+            </p>
+            <Link to="/" className={styles.link}>Volver al inicio</Link>
+        </div>
         </div>
     );
 
