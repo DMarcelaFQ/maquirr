@@ -1,19 +1,19 @@
 import { Request, Response } from "express";
 import { UserDto, UserLoginDto } from "../dto/UserDto";
-import { getUserbyIdService, getUserService, loginUserService, registerUserService } from "../services/userServices";
+import { getUserbyIdService, loginUserService, registerUserService } from "../services/userServices";
 
-export const getUserController = async (req:Request, res:Response): Promise<void> => {
-    try {
-        const getUser = await getUserService();
-        res.status(200).json({
-            data: getUser
-        });
-    } catch (error) {
-        res.status(400).json({
-            message: "Couldn't get the users data. Something went wrong",
-        });
-    }
-}
+// export const getUserController = async (req:Request, res:Response): Promise<void> => {
+//     try {
+//         const getUser = await getUserService();
+//         res.status(200).json({
+//             data: getUser
+//         });
+//     } catch (error) {
+//         res.status(400).json({
+//             message: "Couldn't get the users data. Something went wrong",
+//         });
+//     }
+// }
 
 export const getUserbyIdController = async (req:Request<{ id: string}>, res:Response): Promise<void> => {
     try {

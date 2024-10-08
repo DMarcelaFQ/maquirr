@@ -25,10 +25,10 @@ export const registerUserService = async (userData: UserDto): Promise<User> => {
 
 }
 
-export const getUserService = async(): Promise<User[]> => {
-    const allUsers: User[] = await UserRepository.find();
-    return allUsers
-}
+// export const getUserService = async(): Promise<User[]> => {
+//     const allUsers: User[] = await UserRepository.find();
+//     return allUsers
+// }
 
 export const getUserbyIdService = async(id:number): Promise<User> => {
     const userFound = await UserRepository.findOne({
