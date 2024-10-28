@@ -4,9 +4,9 @@ import { status } from "../interfaces/IAppointment";
 import { AppointmentRepository } from "../repositories/AppointmentRepository";
 import { getUserbyIdService } from "./userServices";
 
-let appointments: Appointment[] = [];
+// const appointments: Appointment[] = [];
 
-let id: number = 1;
+// const id: number = 1;
 
 export const createAppointmentService = async (appointmentData: AppointmentDto): Promise<Appointment> => {
     
@@ -15,7 +15,7 @@ export const createAppointmentService = async (appointmentData: AppointmentDto):
     await AppointmentRepository.validateExistingAppointment(appointmentData.userId, appointmentData.date, appointmentData.time)
     
     const newAppointment: Appointment = AppointmentRepository.create({
-        date: appointmentData.date,
+        date: appointmentData.date, 
         time: appointmentData.time,
         user: {id: appointmentData.userId,}  
     })

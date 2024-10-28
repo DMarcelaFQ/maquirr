@@ -25,7 +25,7 @@ export const checkCredentials = async (email:string, password: string): Promise<
     });
     if(!userfound) throw Error ("El usuario no fue encontrado")
     
-    const passwordMatch: Boolean = await bcrypt.compare(password, userfound.password);
+    const passwordMatch: boolean = await bcrypt.compare(password, userfound.password);
     if (!passwordMatch) {
         throw new Error("Contraseña incorrecta");
     }

@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-export const PORT: number = process.env.PORT ? parseInt(process.env.PORT, 10): 3004;
+export const PORT: number = process.env.PORT ? parseInt(process.env.PORT, 10): 3000;
 
 export const DB_TYPE: string | undefined = process.env.DB_TYPE;
 export const DB_HOST: string | undefined = process.env.DB_HOST;
