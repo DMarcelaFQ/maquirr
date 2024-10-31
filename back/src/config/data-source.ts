@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { DB_HOST, DB_LOGGING, DB_NAME, DB_PASSWORD, DB_PORT, DB_SYNC, DB_USER } from "./envs";
+import { DB_DROP, DB_HOST, DB_LOGGING, DB_NAME, DB_PASSWORD, DB_PORT, DB_SYNC, DB_USER } from "./envs";
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -10,7 +10,7 @@ export const AppDataSource = new DataSource({
     database: DB_NAME,
     synchronize: DB_SYNC,
     logging: DB_LOGGING,
-    dropSchema: false,
-    entities: ["src/entities/**/*.ts"],
+    dropSchema: DB_DROP,
+    entities: ["src/entities/**/*.ts"]
 })
 

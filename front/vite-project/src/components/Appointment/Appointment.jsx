@@ -1,11 +1,14 @@
-import { useDispatch } from "react-redux"
+/* eslint-disable react/prop-types */
 import styles from "./Appointment.module.css"
 import Swal from "sweetalert2"
-import { cancelAppointment } from "../../redux/userReducer"
+import { useContext } from "react"
+import { UsersContext } from "../../context/UsersContext"
+
 
 const Appointment = ({id, date, time, status}) => {
 
-    const dispatch = useDispatch()
+    const { cancelAppointment } = useContext(UsersContext)
+
     const handleCancel = () => {
         Swal.fire({
             title: '¿Estás seguro de cancelar la reserva?',
@@ -19,7 +22,7 @@ const Appointment = ({id, date, time, status}) => {
         }).then(async (result) => {
             if (result.isConfirmed) {
         try {
-            await dispatch(cancelAppointment(id)).unwrap();
+            await cancelAppointment(id);
             Swal.fire({
                 icon: "warning",
                 iconColor:"red",
@@ -28,7 +31,8 @@ const Appointment = ({id, date, time, status}) => {
         } catch (error) {
             Swal.fire({
                 icon: "error",
-                title: "Error al cancelar la reserva. Intente de nuevo"
+                title: "Error al cancelar la reserva. Intenta de nuevo",
+                text: error.message
             });
         }
         }
@@ -52,5 +56,6 @@ const Appointment = ({id, date, time, status}) => {
         </div>
     )
 }
+
 
 export default Appointment

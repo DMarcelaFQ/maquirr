@@ -1,15 +1,16 @@
 import { Link } from "react-router-dom";
 import Title from "../../components/Title/Title"
 import styles from "./Home.module.css";
-import { useSelector } from "react-redux";
-import Navbar from "../../components/Navbar/Navbar"
+import { useContext } from "react";
+import { UsersContext } from "../../context/UsersContext";
 
 const Home = () => {
-    const userId = useSelector((state) => state.user);
+    // const userId = useSelector((state) => state.user);
+    const { user } = useContext(UsersContext)
 
     return (
         <>
-            {userId ? (
+            {user ? (
             <>
             <div className={styles.titleContainer}>
             <Title />
@@ -20,7 +21,7 @@ const Home = () => {
             o también puedes<Link to="/myAppointments" className={styles.link}>Gestionar tus reservas</Link>
             </p>
             </div>
-             </>
+            </>
             ): (  
             <div className={styles.container}>
                 <h1 className={styles.title}>Reserva una cita con nosotros!</h1>
@@ -28,7 +29,7 @@ const Home = () => {
                 para reservar o<Link to="/register" className={styles.link}>Regístrate</Link>
                 si aún no tienes una cuenta</p>
             </div>                             
-             )} 
+            )} 
         </>
     )
 }

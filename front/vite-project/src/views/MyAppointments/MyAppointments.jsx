@@ -1,19 +1,18 @@
-import { useEffect, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useContext, useEffect } from "react";
 import Appointment from "../../components/Appointment/Appointment";
 import styles from "./MyAppointments.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { getAppointments } from "../../redux/userReducer";
+import { UsersContext } from "../../context/UsersContext";
 
 
 const MyAppointments = () => {
 
-    const dispatch = useDispatch();
-    const userId = useSelector((state) => state.user);
-    const userAppointments = useSelector((state) => state.userAppointments);
+    const { getUserAppointments, user, userAppointments } = useContext(UsersContext);   
 
     useEffect (()=> {
-        dispatch(getAppointments(userId))
-    }, [dispatch]);
+        getUserAppointments(user)
+
+    }, []);
     
 
     return (
@@ -32,7 +31,7 @@ const MyAppointments = () => {
                     />                   
                 )) : (
                     <h1>No hay reservas</h1>
-                     )
+                    )
                 }
             </div>
         </div>

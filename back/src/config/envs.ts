@@ -2,7 +2,7 @@ import "dotenv/config";
 
 export const PORT: number = process.env.PORT ? parseInt(process.env.PORT, 10): 3000;
 
-export const DB_TYPE: string | undefined = process.env.DB_TYPE;
+export const DB_TYPE: string | undefined = process.env.DB_TYPE = "postgres"
 export const DB_HOST: string | undefined = process.env.DB_HOST;
 export const DB_PORT: number = process.env.DB_PORT
     ? parseInt(process.env.DB_PORT, 10)
@@ -15,4 +15,7 @@ export const DB_SYNC: boolean = process.env.DB_SYNC
     : true;
 export const DB_LOGGING: boolean = process.env.DB_LOGGING
     ? process.env.DB_LOGGING === "true"
+    : true;
+export const DB_DROP: boolean = process.env.DB_DROP
+    ? process.env.DB_DROP === "true"
     : true;

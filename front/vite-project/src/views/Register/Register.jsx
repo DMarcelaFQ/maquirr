@@ -1,15 +1,15 @@
 import { useFormik } from "formik"
 import { validateRegisterFields } from "../../helpers/validations"
 import styles from "./Register.module.css"
-import { useDispatch } from "react-redux"
-import { registerUser } from "../../redux/userReducer"
 import Swal from "sweetalert2"
 import { Link, useNavigate } from "react-router-dom"
+import { useContext } from "react"
+import { UsersContext } from "../../context/UsersContext"
 
 const Register = () => {
     
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const { registerUser } = useContext(UsersContext)
 
     const formik = useFormik({
         initialValues: {
@@ -22,9 +22,9 @@ const Register = () => {
         validate: validateRegisterFields, 
         onSubmit: async (values) => {
             try {
-                 await dispatch(registerUser(values)).unwrap();
-                 navigate("/login")
-                 Swal.fire({
+                await registerUser(values);
+                navigate("/login")
+                Swal.fire({
                     icon: "success",
                     title: "Te registraste con éxito"
                 })

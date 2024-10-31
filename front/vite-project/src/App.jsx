@@ -5,30 +5,35 @@ import Register from './views/Register/Register'
 import Schedule from './views/Schedule/Schedule'
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import NotFound from './components/NotFound/NotFound'
-import { useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Title from './components/Title/Title'
 import styles from './App.module.css'
 import Navbar from './components/Navbar/Navbar'
+import { UsersContext } from './context/UsersContext'
 
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const userId = useSelector((state) => state.user);
+
+  
   const [isNotFound, setIsNotFound] = useState(false);
+  const { user } = useContext(UsersContext)
 
   useEffect(() => {
-    if(userId && location.pathname === "/login") {
+    if(
+      user 
+      && location.pathname === "/login"
+      && location.pathname === "/register") { 
       navigate("/");
     } else if (
-      !userId 
+      !user 
       && location.pathname !== "./login"
       && location.pathname !== "/register"
       && location.pathname !== "/") {
       navigate("/login");
     }
-  },[location.pathname])
+  },[location.pathname, user, navigate])
 
   useEffect(() => {
 
@@ -45,7 +50,7 @@ function App() {
 
   return (
     <>
-    {!userId ? (
+    {!user ? (
       <main>
         <div className={styles.titleContainer}>
             <Title />

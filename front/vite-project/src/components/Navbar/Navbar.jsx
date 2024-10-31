@@ -1,15 +1,15 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import styles from './Navbar.module.css'
-import { useDispatch } from 'react-redux'
 import Swal from 'sweetalert2';
-import { logOutUser } from '../../redux/userReducer';
+import { useContext } from 'react';
+import { UsersContext } from '../../context/UsersContext';
 
 const Navbar = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const {logOutUser} = useContext(UsersContext)
 
     const handleLogOut = () => {
-        dispatch(logOutUser());
+        logOutUser();
         Swal.fire({
             icon: "warning",
             title: "Cerraste sesión. Vuelve pronto!"

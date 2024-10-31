@@ -1,15 +1,14 @@
 import { useFormik } from "formik"
 import { validateAppointmentSchedule } from "../../helpers/validations"
 import styles from "./Schedule.module.css"
-import { useDispatch, useSelector } from "react-redux"
-import { postAppointment } from "../../redux/userReducer"
 import Swal from "sweetalert2"
 import { useNavigate } from "react-router-dom"
+import { UsersContext } from "../../context/UsersContext"
+import { useContext } from "react"
 
 const Schedule = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const userId = useSelector((state) => state.user);
+    const { scheduleAppointment } = useContext(UsersContext)
 
     const formik = useFormik({
         initialValues: {
@@ -19,8 +18,7 @@ const Schedule = () => {
         validate: validateAppointmentSchedule, 
         onSubmit: async (values) => {
             try {
-                const data = {...values, userId:userId};
-                await dispatch(postAppointment(data)).unwrap(); 
+                await scheduleAppointment(values); 
                 navigate("/myAppointments")
                 Swal.fire({
                     icon: "success",

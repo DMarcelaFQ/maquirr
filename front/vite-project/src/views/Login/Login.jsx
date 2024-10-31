@@ -1,14 +1,15 @@
 import styles from "./Login.Module.css"
 import { useFormik } from "formik"
 import { validateFields } from "../../helpers/validations"
-import { useDispatch, useSelector } from "react-redux"
-import { loginUser } from "../../redux/userReducer"
 import Swal from "sweetalert2"
 import { Link, useNavigate } from "react-router-dom"
+import { useContext } from "react"
+import { UsersContext } from "../../context/UsersContext"
 
 const Login = () => {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const { loginUser } = useContext(UsersContext)
+
     
     const formik = useFormik({
         initialValues: {
@@ -18,16 +19,16 @@ const Login = () => {
         validate: validateFields,
         onSubmit: async (values) => {
             try {
-                await dispatch(loginUser(values)).unwrap();
-                navigate("/");
+                await loginUser(values)
                 Swal.fire({
                     title: "¡Bienvenid@!",
                     icon: "success",
-                  });              
-            } catch (error) {
+                });              
+                navigate("/");
+            } catch {
                 Swal.fire({
                     icon: "error",
-                    title: `${error.response.data.details}`,
+                    title: "Usuario o contraseña incorrectos",
                     text: "Intentelo nuevamente",
                 });           
             };
