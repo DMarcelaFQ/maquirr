@@ -5,7 +5,6 @@ import { useContext } from "react";
 import { UsersContext } from "../../context/UsersContext";
 
 const Home = () => {
-    // const userId = useSelector((state) => state.user);
     const { user } = useContext(UsersContext)
 
     return (
