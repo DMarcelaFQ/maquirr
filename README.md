@@ -2,8 +2,10 @@
 
 <h3>Features:</h3>
 
-- ✅ User registration  
+- ✅ User registration
+- 🔑 User login  
 - 🗓 Appointment reservation
+- ❌ Appointment cancellation
 
 <h3 align="center">Technologies:</h3>
 
