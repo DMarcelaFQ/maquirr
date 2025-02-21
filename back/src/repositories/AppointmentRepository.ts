@@ -25,15 +25,15 @@ export const AppointmentRepository = AppDataSource.getRepository(Appointment).ex
         const day: number = getDay(appointmentDateTime); 
         const hour: number = getHours(appointmentDateTime); 
 
-        if (day >= 1 && day <= 5) { // Lunes a viernes
-            if (hour < 14 || hour >= 20) { // Entre 2 p.m. y 8 p.m.
+        if (day >= 1 && day <= 5) { 
+            if (hour < 14 || hour >= 20) { 
                 throw new Error('Appointments on weekdays must be between 2 p.m. and 8 p.m.');
             }
-        } else if (isSaturday(appointmentDateTime)) { // Sábado
-            if (!isWithinInterval(appointmentDateTime, { // 8-12pm
+        } else if (isSaturday(appointmentDateTime)) { 
+            if (!isWithinInterval(appointmentDateTime, { 
                     start: new Date(appointmentDateTime.setHours(8, 0)), 
                     end: new Date(appointmentDateTime.setHours(12, 0)) 
-                }) && !isWithinInterval(appointmentDateTime, { // 2pm-6pm
+                }) && !isWithinInterval(appointmentDateTime, { 
                     start: new Date(appointmentDateTime.setHours(14, 0)), 
                     end: new Date(appointmentDateTime.setHours(18, 0)) 
                 })) {

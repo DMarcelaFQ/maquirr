@@ -48,16 +48,3 @@ export const loginUserController = async (req: Request<unknown, unknown, UserLog
     }
 }
 
-
-// export const getUserController = async (req:Request, res:Response): Promise<void> => {
-//     try {
-//         const getUser = await getUserService();
-//         res.status(200).json({
-//             data: getUser
-//         });
-//     } catch (error) {
-//         res.status(400).json({
-//             message: "Couldn't get the users data. Something went wrong",
-//         });
-//     }
-// }

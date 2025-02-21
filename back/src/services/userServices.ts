@@ -51,8 +51,3 @@ export const loginUserService = async(user:UserLoginDto): Promise<UserloggedDto>
         }
     } 
 
-
-// export const getUserService = async(): Promise<User[]> => {
-//     const allUsers: User[] = await UserRepository.find();
-//     return allUsers
-// }

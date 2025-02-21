@@ -4,9 +4,6 @@ import { status } from "../interfaces/IAppointment";
 import { AppointmentRepository } from "../repositories/AppointmentRepository";
 import { getUserbyIdService } from "./userServices";
 
-// const appointments: Appointment[] = [];
-
-// const id: number = 1;
 
 export const createAppointmentService = async (appointmentData: AppointmentDto): Promise<Appointment> => {
     
