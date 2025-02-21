@@ -27,6 +27,7 @@
 ![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![TypeORM](https://img.shields.io/badge/TypeORM-FF9800?style=for-the-badge&logo=typeorm&logoColor=white)
 
 </div>
 
